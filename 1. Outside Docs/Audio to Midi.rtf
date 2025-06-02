@@ -1,0 +1,139 @@
+{\rtf1\ansi\ansicpg1252\cocoartf2761
+\cocoatextscaling0\cocoaplatform0{\fonttbl\f0\froman\fcharset0 Times-Roman;\f1\froman\fcharset0 Times-Bold;\f2\fmodern\fcharset0 Courier;
+\f3\froman\fcharset0 Times-Italic;\f4\fnil\fcharset0 HelveticaNeue;\f5\fmodern\fcharset0 Courier-Bold;
+\f6\froman\fcharset0 Times-BoldItalic;}
+{\colortbl;\red255\green255\blue255;\red0\green0\blue0;\red0\green0\blue0;\red179\green179\blue179;
+\red109\green109\blue109;}
+{\*\expandedcolortbl;;\cssrgb\c0\c0\c0;\cssrgb\c0\c0\c0\c84706;\cssrgb\c75294\c75294\c75294;
+\cssrgb\c50196\c50196\c50196;}
+{\*\listtable{\list\listtemplateid1\listhybrid{\listlevel\levelnfc23\levelnfcn23\leveljc0\leveljcn0\levelfollow0\levelstartat1\levelspace360\levelindent0{\*\levelmarker \{disc\}}{\leveltext\leveltemplateid1\'01\uc0\u8226 ;}{\levelnumbers;}\fi-360\li720\lin720 }{\listname ;}\listid1}
+{\list\listtemplateid2\listhybrid{\listlevel\levelnfc0\levelnfcn0\leveljc0\leveljcn0\levelfollow0\levelstartat1\levelspace360\levelindent0{\*\levelmarker \{decimal\}}{\leveltext\leveltemplateid101\'01\'00;}{\levelnumbers\'01;}\fi-360\li720\lin720 }{\listlevel\levelnfc23\levelnfcn23\leveljc0\leveljcn0\levelfollow0\levelstartat1\levelspace360\levelindent0{\*\levelmarker \{circle\}}{\leveltext\leveltemplateid102\'01\uc0\u9702 ;}{\levelnumbers;}\fi-360\li1440\lin1440 }{\listname ;}\listid2}}
+{\*\listoverridetable{\listoverride\listid1\listoverridecount0\ls1}{\listoverride\listid2\listoverridecount0\ls2}}
+\paperw11900\paperh16840\margl1440\margr1440\vieww11520\viewh8400\viewkind0
+\deftab720
+\pard\pardeftab720\partightenfactor0
+
+\f0\fs24 \cf0 \expnd0\expndtw0\kerning0
+\outl0\strokewidth0 \strokec2 question, if I understand correctly, the btc chord function can theoretically find the music chords in the music ? Can it output them as midi files too?\
+\
+\pard\pardeftab720\sa419\partightenfactor0
+
+\f1\b\fs18 \cf0 \strokec2 ChatGPT said:\
+\pard\pardeftab720\sa240\partightenfactor0
+
+\f0\b0\fs24 \cf0 \strokec2 Yes \uc0\u55357 \u56898 .\
+\pard\pardeftab720\sa280\partightenfactor0
+
+\f1\b\fs28 \cf0 \strokec2 What the BTC model actually does\
+\pard\tx220\tx720\pardeftab720\li720\fi-720\sa240\partightenfactor0
+\ls1\ilvl0
+\fs24 \cf0 \kerning1\expnd0\expndtw0 \outl0\strokewidth0 {\listtext	\uc0\u8226 	}\expnd0\expndtw0\kerning0
+\outl0\strokewidth0 \strokec2 BTC (Beat-Transformer-Chord) model
+\f0\b0 \uc0\u8232 \'96 the 
+\f2\fs26 BTC_model
+\f0\fs24  class in 
+\f2\fs26 music2emo/utils/btc_model.py
+\f0\fs24  \'96\uc0\u8232 takes a log-mel/CFP feature stream and predicts a chord 
+\f1\b label
+\f0\b0  for every\uc0\u8232 10 ms frame (after post-processing you usually get one label every 20\'9640 ms).\
+\pard\tx220\tx720\pardeftab720\li720\fi-720\sa240\partightenfactor0
+\ls1\ilvl0\cf0 \kerning1\expnd0\expndtw0 \outl0\strokewidth0 {\listtext	\uc0\u8226 	}\expnd0\expndtw0\kerning0
+\outl0\strokewidth0 \strokec2 Those labels are indices (0-169 in the 
+\f3\i large voca
+\f0\i0  checkpoint) that map to\uc0\u8232 the 170 chord symbols stored in 
+\f2\fs26 inference/data/chord.json
+\f0\fs24 .\
+\pard\pardeftab720\sa280\partightenfactor0
+
+\f1\b\fs28 \cf0 Getting the chords into a MIDI file\
+\pard\pardeftab720\sa240\partightenfactor0
+
+\f0\b0\fs24 \cf0 \strokec2 The 
+\f2\fs26 Music2emo.predict()
+\f0\fs24  method already demonstrates the full pipeline:\
+\pard\tx220\tx720\pardeftab720\li720\fi-720\sa240\partightenfactor0
+\ls2\ilvl0
+\f1\b \cf0 \kerning1\expnd0\expndtw0 \outl0\strokewidth0 {\listtext	1	}\expnd0\expndtw0\kerning0
+\outl0\strokewidth0 \strokec2 Predict frame-level chord labels
+\f0\b0 \uc0\u8232 
+\f2\fs26 python\uc0\u8232 
+\f4\fs22 \cf3 \cb4 \strokec3 CopyEdit
+\f2\fs26 \cf0 \cb1 \strokec2 \uc0\u8232 \u8232 \u8232 self_attn, _ = model.self_attn_layers(feature_batch)\
+\pard\tx220\tx720\pardeftab720\li720\fi-720\partightenfactor0
+\ls2\ilvl0\cf0 \kerning1\expnd0\expndtw0 \outl0\strokewidth0 {\listtext	2	}\expnd0\expndtw0\kerning0
+\outl0\strokewidth0 \strokec2 pred, _      = model.output_layer(self_attn)\
+\ls2\ilvl0\kerning1\expnd0\expndtw0 \outl0\strokewidth0 {\listtext	3	}\expnd0\expndtw0\kerning0
+\outl0\strokewidth0 \strokec2 \uc0\u8232 \u8232 
+\f0\fs24 \
+\pard\tx220\tx720\pardeftab720\li720\fi-720\sa240\partightenfactor0
+\ls2\ilvl0
+\f1\b \cf0 \kerning1\expnd0\expndtw0 \outl0\strokewidth0 {\listtext	4	}\expnd0\expndtw0\kerning0
+\outl0\strokewidth0 \strokec2 Turn the label stream into a 
+\f5\fs26 .lab
+\f1\fs24  file
+\f0\b0  (
+\f2\fs26 start end chord\\n
+\f0\fs24 )\uc0\u8232 \'96 see the 
+\f2\fs26 lines.append(...)
+\f0\fs24  block.\
+\ls2\ilvl0
+\f1\b \kerning1\expnd0\expndtw0 \outl0\strokewidth0 {\listtext	5	}\expnd0\expndtw0\kerning0
+\outl0\strokewidth0 \strokec2 Convert the .lab file to a 
+\f6\i MIDI
+\f1\i0  file
+\f0\b0 \uc0\u8232 
+\f2\fs26 python\uc0\u8232 
+\f4\fs22 \cf3 \cb4 \strokec3 CopyEdit
+\f2\fs26 \cf0 \cb1 \strokec2 \uc0\u8232 \u8232 \u8232 intervals, chords = mir_eval.io.load_labeled_intervals(lab_path)\
+\pard\tx220\tx720\pardeftab720\li720\fi-720\partightenfactor0
+\ls2\ilvl0\cf0 \kerning1\expnd0\expndtw0 \outl0\strokewidth0 {\listtext	6	}\expnd0\expndtw0\kerning0
+\outl0\strokewidth0 \strokec2 # \uc0\u8594  build note list and write with pretty_midi\
+\ls2\ilvl0\kerning1\expnd0\expndtw0 \outl0\strokewidth0 {\listtext	7	}\expnd0\expndtw0\kerning0
+\outl0\strokewidth0 \strokec2 midi.write(lab_path.replace('.lab', '.midi'))\
+\ls2\ilvl0\kerning1\expnd0\expndtw0 \outl0\strokewidth0 {\listtext	8	}\expnd0\expndtw0\kerning0
+\outl0\strokewidth0 \strokec2 \uc0\u8232 \u8232 
+\f0\fs24 \
+\pard\tx940\tx1440\pardeftab720\li1440\fi-1440\sa240\partightenfactor0
+\ls2\ilvl1\cf0 \kerning1\expnd0\expndtw0 \outl0\strokewidth0 {\listtext	\uc0\u9702 	}\expnd0\expndtw0\kerning0
+\outl0\strokewidth0 \strokec2 Each chord root becomes a pitched note (C4-B4 = MIDI 48-59).\uc0\u8232 Durations match the chord spans in the 
+\f2\fs26 .lab
+\f0\fs24  file.\
+\pard\pardeftab720\sa240\partightenfactor0
+\cf0 \strokec2 So if you call 
+\f2\fs26 Music2emo.predict()
+\f0\fs24  (or copy that section into your own\uc0\u8232 script) you already get:\
+\pard\pardeftab720\partightenfactor0
+
+\f2\fs26 \cf0 bash\
+\pard\pardeftab720\partightenfactor0
+
+\f4\fs22 \cf3 \cb4 \strokec3 CopyEdit
+\f2\fs26 \cf0 \cb1 \strokec2 \
+\'85/whatever_norm.lab      \uc0\u8592  human-readable chord grid\
+\'85/whatever_norm.midi     \uc0\u8592  one note per chord root\
+\pard\pardeftab720\sa280\partightenfactor0
+
+\f1\b\fs28 \cf0 \strokec2 Customising the MIDI export\
+\pard\pardeftab720\sa240\partightenfactor0
+
+\f3\i\b0\fs24 \cf0 Change pitch octave
+\f0\i0 \strokec2  \'96 replace 
+\f2\fs26 pitch = p + 48
+\f0\fs24  with e.g. 
+\f2\fs26 p + 60
+\f0\fs24  for C5.\uc0\u8232 
+\f3\i \strokec2 Include chord quality
+\f0\i0 \strokec2  \'96 instead of single notes you could create MIDI\uc0\u8232 
+\f1\b program-type = 0 (piano)
+\f0\b0  triads; map major/minor/7th etc. to 
+\f2\fs26 (root, third, fifth, \'85)
+\f0\fs24  and add three notes per chord span.\
+\pard\pardeftab720\partightenfactor0
+\cf5 \strokec5 \
+\pard\pardeftab720\sa240\partightenfactor0
+
+\f1\b \cf0 \strokec2 Bottom line:
+\f0\b0 \uc0\u8232 The BTC block already \'93finds the chords\'94, and the example code in\u8232 
+\f2\fs26 music2emo.music2emo
+\f0\fs24  shows one way to dump them to a MIDI file. You can copy\uc0\u8232 or adapt that snippet to suit any downstream need (change instruments,\u8232 octaves, add full triads, etc.).\
+}

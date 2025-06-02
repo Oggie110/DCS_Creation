@@ -1,0 +1,21 @@
+# Byte-compiled / cache / virtual envs
+__pycache__/
+*.py[cod]
+*.so
+venv/
+.DS_Store
+
+# Model weights
+weights/
+
+# Ignore large model and audio files in inference
+music2emo/inference/data/*.pt
+music2emo/inference/input/*.mp3
+music2emo/inference/temp_out/
+music2emo/inference/.DS_Store
+music2emo/inference/temp_out/.DS_Store
+
+# Ignore output and temp folders
+output/
+temp_out/
+demo_out/

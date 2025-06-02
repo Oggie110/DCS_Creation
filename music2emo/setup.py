@@ -1,0 +1,1 @@
+from setuptools import setup; setup(name="music2emo", py_modules=["music2emo"])

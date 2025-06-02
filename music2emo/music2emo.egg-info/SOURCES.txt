@@ -1,0 +1,7 @@
+README.md
+music2emo.py
+setup.py
+music2emo.egg-info/PKG-INFO
+music2emo.egg-info/SOURCES.txt
+music2emo.egg-info/dependency_links.txt
+music2emo.egg-info/top_level.txt
